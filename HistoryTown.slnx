@@ -1,5 +1,9 @@
 ﻿<Solution>
 	<Folder Name="/source/">
+		<Project Path="source/HistoryTown.Core/HistoryTown.Core.csproj" />
 		<Project Path="source\HistoryTown.WPF\HistoryTown.WPF.csproj" />
+	</Folder>
+	<Folder Name="/tests/">
+		<Project Path="tests/HistoryTown.Core.Tests/HistoryTown.Core.Tests.csproj" />
 	</Folder>
 </Solution>
