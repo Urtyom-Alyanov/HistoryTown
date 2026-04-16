@@ -40,7 +40,7 @@ public partial class MainWindow : Window
             }
 
             TxtStatus.Text = $"Загружено зданий: {structures.Count}";
-            BtnBfs.IsEnabled = BtnDfs.IsEnabled = BtnCheckReach.IsEnabled = BtnComponents.IsEnabled = true;
+            MainTabs.IsEnabled = true;
             TxtResult.Text = "Карта успешно загружена.\r\n";
         }
         catch (Exception ex)

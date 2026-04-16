@@ -24,4 +24,8 @@
     <Folder Include="Entities\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\source\HistoryTown.Core\HistoryTown.Core.csproj" />
+  </ItemGroup>
+
 </Project>
