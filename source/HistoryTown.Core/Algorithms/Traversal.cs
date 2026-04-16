@@ -63,4 +63,33 @@ public class Traversal(TownGraph graph)
             }
         }
     }
+
+    /// <summary>
+    /// Проверяет, достижима ли вершина B из вершины A
+    /// </summary>
+    public bool IsReachable(Structure start, Structure target)
+    {
+        return BreadthFirstSearch(start).Any(s => s == target);
+    }
+
+    /// <summary>
+    /// Возвращает все компоненты связности графа
+    /// </summary>
+    public IEnumerable<List<Structure>> GetConnectedComponents()
+    {
+        var visited = new HashSet<Structure>();
+        var components = new List<List<Structure>>();
+
+        foreach (var structure in graph.GetAllStructures())
+        {
+            if (!visited.Contains(structure))
+            {
+                var component = BreadthFirstSearch(structure).ToList();
+                foreach (var s in component) visited.Add(s);
+                components.Add(component);
+            }
+        }
+
+        return components;
+    }
 }
