@@ -17,13 +17,13 @@ public class TraversalTests
         var f = new Structure("F");
         var g = new Structure("G"); // Isolated
 
-        graph.AddStreet(a, b);
-        graph.AddStreet(a, c);
-        graph.AddStreet(b, d);
-        graph.AddStreet(c, e);
-        graph.AddStreet(d, e);
-        graph.AddStreet(e, f);
-        graph.AddStreet(g, new Structure("H"));
+        graph.AddStreet(a, b, 1.0);
+        graph.AddStreet(a, c, 1.0);
+        graph.AddStreet(b, d, 1.0);
+        graph.AddStreet(c, e, 1.0);
+        graph.AddStreet(d, e, 1.0);
+        graph.AddStreet(e, f, 1.0);
+        graph.AddStreet(g, new Structure("H"), 1.0);
 
         return graph;
     }

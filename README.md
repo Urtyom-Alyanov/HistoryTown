@@ -64,6 +64,100 @@ graph TD
     B2.3 --&gt; E4
 ```
 
+### UML-диаграмма классов
+
+```mermaid
+classDiagram
+    class Structure {
+        + string Name
+        + bool Equals(object obj)
+        + int GetHashCode()
+    }
+
+    class Street {
+        + string From
+        + string To
+        + double Weight
+    }
+
+    class TownGraph {
+        - Dictionary<Structure, List<Structure>> _adjacencyList
+        + AddStreet(Structure from, Structure to)
+        + IEnumerable<Structure> GetNeighbors(Structure structure)
+        + IEnumerable<Structure> GetAllStructures()
+    }
+
+    class Traversal {
+        - TownGraph graph
+        + Traversal(TownGraph graph)
+        + IEnumerable<Structure> BreadthFirstSearch(Structure start)
+        + IEnumerable<Structure> DepthFirstSearchIterative(Structure start)
+        + bool IsReachable(Structure start, Structure target)
+        + IEnumerable<List<Structure>> GetConnectedComponents()
+    }
+
+    class TownLoader {
+        + static TownGraph LoadFromFile(string path)
+    }
+
+    TownGraph "1" -- "*" Structure : содержит
+    TownGraph "1" -- "*" Street : может быть представлен через
+    Traversal --> TownGraph : использует
+    TownLoader ..> TownGraph : создает
+    Street .. Structure : связывает
+```
+
+### UML-диаграмма классов
+
+```mermaid
+classDiagram
+    class Structure {
+        + string Name
+        + bool Equals(object obj)
+        + int GetHashCode()
+    }
+
+    class Street {
+        + string From
+        + string To
+        + double Weight
+    }
+
+    class TownGraph {
+        - Dictionary<Structure, List<(Structure Neighbor, double Weight)>> _adjacencyList
+        + AddStreet(Structure from, Structure to, double weight)
+        + IEnumerable<(Structure Neighbor, double Weight)> GetWeightedNeighbors(Structure structure)
+        + IEnumerable<Structure> GetNeighbors(Structure structure) 
+        + IEnumerable<Structure> GetAllStructures()
+    }
+
+    class Traversal {
+        - TownGraph graph
+        + Traversal(TownGraph graph)
+        + IEnumerable<Structure> BreadthFirstSearch(Structure start)
+        + IEnumerable<Structure> DepthFirstSearchIterative(Structure start)
+        + bool IsReachable(Structure start, Structure target)
+        + IEnumerable<List<Structure>> GetConnectedComponents()
+    }
+
+    class DijkstraAlgorithm {
+        - TownGraph graph
+        + DijkstraAlgorithm(TownGraph graph)
+        + (Dictionary<Structure, double> distances, Dictionary<Structure, Structure?> previousNodes) FindShortestPaths(Structure start)
+        + List<Structure> ReconstructPath(Structure start, Structure target, Dictionary<Structure, Structure?> previousNodes)
+    }
+
+    class TownLoader {
+        + static TownGraph LoadFromFile(string path)
+    }
+
+    TownGraph "1" -- "*" Structure : содержит
+    TownGraph "1" -- "*" Street : содержит через список смежности
+    Traversal --> TownGraph : использует
+    DijkstraAlgorithm --> TownGraph : использует
+    TownLoader ..> TownGraph : создает
+```
+
 ## Сборка и развертывание
 
 Для сборки и запуска проекта вам потребуется установленный [.NET SDK 10.0](https://dotnet.microsoft.com/download/dotnet/10.0).

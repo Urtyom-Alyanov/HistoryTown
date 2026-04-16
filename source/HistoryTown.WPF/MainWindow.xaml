@@ -50,15 +50,34 @@
             <!-- Лабораторная работа №5 -->
             <TabItem Header="ЛР №5: Дейкстра">
                 <Grid Margin="10">
-                    <TextBlock Text="Функционал будет реализован в ЛР №5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="Gray"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <GroupBox Header="Параметры Дейкстры" Padding="5">
+                            <StackPanel>
+                                <TextBlock Text="Начальное здание:" Margin="0,5"/>
+                                <ComboBox x:Name="ComboDijkstraStart" DisplayMemberPath="Name" Margin="0,0,0,10"/>
+
+                                <TextBlock Text="Конечное здание (для маршрута):" Margin="0,5"/>
+                                <ComboBox x:Name="ComboDijkstraEnd" DisplayMemberPath="Name"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <Button x:Name="BtnDijkstra" Content="Найти кратчайшие пути (Дейкстра)" Click="BtnDijkstra_Click" Margin="0,10,0,5" Height="35"/>
+                        <Button x:Name="BtnDijkstraPath" Content="Показать маршрут (до конечного)" Click="BtnDijkstraPath_Click" Margin="0,5" Height="35" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <GroupBox Header="Результат Дейкстры" Grid.Column="1" Margin="10,0,0,0">
+                        <TextBox x:Name="TxtDijkstraResult" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas" FontSize="13"/>
+                    </GroupBox>
                 </Grid>
             </TabItem>
 
             <!-- Лабораторная работа №6 -->
-            <TabItem Header="ЛР №6: Анализ графа">
-                <Grid Margin="10">
-                    <TextBlock Text="Функционал будет реализован в ЛР №6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="Gray"/>
-                </Grid>
+            <TabItem Header="ЛР №6">
             </TabItem>
         </TabControl>
 

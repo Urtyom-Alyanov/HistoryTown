@@ -14,7 +14,7 @@ public class TownGraphTests
         var structureB = new Structure("Дом Б");
 
         // Act
-        graph.AddStreet(structureA, structureB);
+        graph.AddStreet(structureA, structureB, 1.0);
 
         // Assert
         Assert.Contains(structureA, graph.GetAllStructures());
@@ -32,7 +32,7 @@ public class TownGraphTests
         var nonExistentStructure = new Structure("Дом В");
 
         // Act
-        graph.AddStreet(structureA, new Structure("Дом Б"));
+        graph.AddStreet(structureA, new Structure("Дом Б"), 1.0);
         var neighbors = graph.GetNeighbors(nonExistentStructure);
 
         // Assert
@@ -49,8 +49,8 @@ public class TownGraphTests
         var structureC = new Structure("Дом В");
 
         // Act
-        graph.AddStreet(structureA, structureB);
-        graph.AddStreet(structureB, structureC);
+        graph.AddStreet(structureA, structureB, 1.0);
+        graph.AddStreet(structureB, structureC, 1.0);
 
         // Assert
         var allStructures = graph.GetAllStructures().ToList();
