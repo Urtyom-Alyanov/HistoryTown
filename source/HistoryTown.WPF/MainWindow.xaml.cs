@@ -5,8 +5,6 @@ using HistoryTown.Core.Collections;
 using HistoryTown.Core.Algorithms;
 using HistoryTown.Core.Infrastructure;
 using HistoryTown.Core.Entities;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace HistoryTown.WPF;
 

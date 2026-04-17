@@ -7,13 +7,13 @@ namespace HistoryTown.Core.Algorithms;
 
 public class PrimMST(TownGraph graph)
 {
-    public List<(Structure From, Structure To, double Weight)> BuildMST()
+    public List<Street> BuildMST()
     {
-        var mstEdges = new List<(Structure From, Structure To, double Weight)>();
+        var mstEdges = new List<Street>();
         var visited = new HashSet<Structure>();
         // Приоритетная очередь для хранения ребер, отсортированных по весу
         // Храним (Откуда, Куда, Вес)
-        var edgeQueue = new PriorityQueue<(Structure From, Structure To, double Weight), double>();
+        var edgeQueue = new PriorityQueue<Street, double>();
 
         // Начинаем с первой попавшейся вершины
         var startNode = graph.GetAllStructures().FirstOrDefault();
@@ -30,7 +30,7 @@ public class PrimMST(TownGraph graph)
             if (visited.Contains(to)) continue;
 
             // Добавляем ребро в MST и отмечаем вершину 'to' как посещенную
-            mstEdges.Add((from, to, weight));
+            mstEdges.Add(new Street(from, to, weight));
             visited.Add(to);
             AddEdgesToQueue(to, visited, edgeQueue);
         }
@@ -39,7 +39,7 @@ public class PrimMST(TownGraph graph)
     }
 
     // Вспомогательный метод для добавления ребер из вершины в очередь
-    private void AddEdgesToQueue(Structure node, HashSet<Structure> visited, PriorityQueue<(Structure From, Structure To, double Weight), double> edgeQueue)
+    private void AddEdgesToQueue(Structure node, HashSet<Structure> visited, PriorityQueue<Street, double> edgeQueue)
     {
         foreach (var (neighbor, weight) in graph.GetWeightedNeighbors(node))
         {
@@ -47,7 +47,7 @@ public class PrimMST(TownGraph graph)
             // В реальной реализации Prim'а, мы бы проверяли, что сосед не входит в MST, но наша visited покрывает это.
             if (!visited.Contains(neighbor))
             {
-                edgeQueue.Enqueue((node, neighbor, weight), weight);
+                edgeQueue.Enqueue(new Street(node, neighbor, weight), weight);
             }
         }
     }

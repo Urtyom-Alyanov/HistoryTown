@@ -17,8 +17,8 @@ public class TouristRoutePlanner(TownGraph graph)
     /// <returns>Полный список зданий в маршруте и общая длина</returns>
     public (List<Structure> FullPath, double TotalDistance) PlanRoute(List<Structure> keyObjects)
     {
-        if (keyObjects == null || keyObjects.Count < 2)
-            return (keyObjects ?? new List<Structure>(), 0);
+        if (keyObjects.Count < 2)
+            return (keyObjects, 0);
 
         var fullPath = new List<Structure>();
         double totalDistance = 0;

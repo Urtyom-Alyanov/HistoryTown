@@ -1,6 +1,11 @@
 name: .NET Build and Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*.*.*' ] # Trigger on tags like v1.0.0
+  pull_request:
+    branches: [ main ]
 
 env:
   DOTNET_VERSION: '10.0.x'
@@ -23,5 +28,78 @@ jobs:
     - name: Build
       run: dotnet build HistoryTown.slnx --no-restore
 
-    - name: Test
-      run: dotnet test HistoryTown.slnx --no-build --verbosity normal
+    - name: Test with Coverage
+      run: |
+        dotnet test HistoryTown.slnx --no-build --verbosity normal 
+        /p:CollectCoverage=true 
+        /p:CoverletOutputFormat=opencover 
+        /p:CoverletOutput="${{ github.workspace }}/coverage/coverage.xml"
+
+    - name: Install ReportGenerator
+      run: dotnet tool install --global ReportGenerator
+
+    - name: Generate Coverage Report
+      run: reportgenerator -reports:"${{ github.workspace }}/coverage/coverage.xml" -targetdir:"${{ github.workspace }}/coverage/html" -reporttypes:Html
+
+    - name: Upload Coverage Report Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: ${{ github.workspace }}/coverage/html
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: HistoryTown.WPF-build
+        path: source/HistoryTown.WPF/bin/Debug/net10.0-windows/
+
+  release:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download Build Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: HistoryTown.WPF-build
+        path: ./build
+
+    - name: Download Coverage Report
+      uses: actions/download-artifact@v4
+      with:
+        name: coverage-report
+        path: ./coverage-report-html
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset - WPF Executable
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build/HistoryTown.WPF.exe
+        asset_name: HistoryTown.WPF.exe
+        asset_content_type: application/octet-stream
+
+    - name: Upload Release Asset - Coverage Report
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./coverage-report-html/index.html
+        asset_name: coverage-report.html
+        asset_content_type: text/html

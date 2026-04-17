@@ -26,7 +26,7 @@ public class DijkstraAlgorithm(TownGraph graph)
             var current = priorityQueue.Dequeue(); // Получаем вершину с наименьшим расстоянием
 
             // Если текущее расстояние уже бесконечность, значит, мы эту вершину обошли с более коротким путем ранее, или она недостижима.
-            if (distances[current] == double.PositiveInfinity) continue;
+            if (double.IsPositiveInfinity(distances[current])) continue;
 
             // Проходим по всем соседям текущей вершины
             foreach (var (neighbor, weight) in graph.GetWeightedNeighbors(current))
