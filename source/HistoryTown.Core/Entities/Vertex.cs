@@ -12,4 +12,4 @@ public record Structure(string Name);
 /// <param name="From">От какого здания</param>
 /// <param name="To">До какого здания</param>
 /// <param name="Weight">Длина пути</param>
-public record Street(string From, string To, double Weight = 1.0);
+public record Street(Structure From, Structure To, double Weight = 1.0);

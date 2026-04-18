@@ -1,12 +1,133 @@
 ﻿<Window x:Class="HistoryTown.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HistoryTown.WPF"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Исторический город (ЛР 4-6)" Height="600" Width="900">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <!-- Общая панель управления -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,10">
+            <Button x:Name="BtnLoad" Content="Загрузить карту города" Click="BtnLoad_Click" Padding="15,7" Background="#E1F5FE"/>
+            <TextBlock x:Name="TxtStatus" Text="Карта не загружена" VerticalAlignment="Center" Margin="15,0" FontWeight="Bold" Foreground="#0277BD"/>
+        </StackPanel>
+
+        <TabControl x:Name="MainTabs" Grid.Row="1" IsEnabled="False">
+            <!-- Лабораторная работа №4 -->
+            <TabItem Header="ЛР №4: Обходы">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <GroupBox Header="Параметры обхода" Padding="5">
+                            <StackPanel>
+                                <TextBlock Text="Начальное здание (A):" Margin="0,5"/>
+                                <ComboBox x:Name="ComboStart" DisplayMemberPath="Name" Margin="0,0,0,10"/>
+
+                                <TextBlock Text="Конечное здание (B):" Margin="0,5"/>
+                                <ComboBox x:Name="ComboEnd" DisplayMemberPath="Name"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <Button x:Name="BtnBfs" Content="Обход в ширину (BFS)" Click="BtnBfs_Click" Margin="0,10,0,5" Height="35"/>
+                        <Button x:Name="BtnDfs" Content="Обход в глубину (DFS)" Click="BtnDfs_Click" Margin="0,5" Height="35"/>
+                        <Button x:Name="BtnCheckReach" Content="Проверить достижимость" Click="BtnCheckReach_Click" Margin="0,5" Height="35"/>
+                        <Button x:Name="BtnComponents" Content="Компоненты связности" Click="BtnComponents_Click" Margin="0,5" Height="35"/>
+                    </StackPanel>
+
+                    <GroupBox Header="Результат выполнения" Grid.Column="1" Margin="10,0,0,0">
+                        <TextBox x:Name="TxtResult" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas" FontSize="13"/>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <!-- Лабораторная работа №5 -->
+            <TabItem Header="ЛР №5: Дейкстра">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <GroupBox Header="Параметры Дейкстры" Padding="5">
+                            <StackPanel>
+                                <TextBlock Text="Начальное здание:" Margin="0,5"/>
+                                <ComboBox x:Name="ComboDijkstraStart" DisplayMemberPath="Name" Margin="0,0,0,10"/>
+
+                                <TextBlock Text="Конечное здание (для маршрута):" Margin="0,5"/>
+                                <ComboBox x:Name="ComboDijkstraEnd" DisplayMemberPath="Name"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <Button x:Name="BtnDijkstra" Content="Найти кратчайшие пути (Дейкстра)" Click="BtnDijkstra_Click" Margin="0,10,0,5" Height="35"/>
+                        <Button x:Name="BtnDijkstraPath" Content="Показать маршрут (до конечного)" Click="BtnDijkstraPath_Click" Margin="0,5" Height="35" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <GroupBox Header="Результат Дейкстры" Grid.Column="1" Margin="10,0,0,0">
+                        <TextBox x:Name="TxtDijkstraResult" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas" FontSize="13"/>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <!-- Лабораторная работа №6 -->
+            <TabItem Header="ЛР №6: Анализ">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <GroupBox Header="Спец. задача (Вариант 12)" Padding="5">
+                            <StackPanel>
+                                <TextBlock Text="Выберите ключевые объекты (через Ctrl):" Margin="0,5"/>
+                                <ListBox x:Name="ListKeyObjects" DisplayMemberPath="Name" Height="150" SelectionMode="Multiple"/>
+                                <Button x:Name="BtnTouristRoute" Content="Спланировать маршрут" Click="BtnTouristRoute_Click" Margin="0,10,0,0" Height="35"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <Button x:Name="BtnArticulationPoints" Content="Точки сочленения" Click="BtnArticulationPoints_Click" Margin="0,15,0,5" Height="35"/>
+                        <Button x:Name="BtnMST" Content="Остовное дерево (MST)" Click="BtnMST_Click" Margin="0,5" Height="35"/>
+                    </StackPanel>
+
+                    <GroupBox Header="Результат анализа" Grid.Column="1" Margin="10,0,0,0">
+                        <TextBox x:Name="TxtAnalysisResult" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas" FontSize="13"/>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+
+            <!-- Итоговый проект -->
+            <TabItem Header="Итог: Сравнение">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                        <TextBlock Text="Эксперимент: Сравнение BFS и Дейкстры" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <TextBlock TextWrapping="Wrap" Text="BFS находит кратчайший путь по количеству ребер. Дейкстра находит кратчайший путь с учетом весов. Если веса всех ребер равны 1, результаты должны совпадать." Margin="0,0,0,10"/>
+                        <Button x:Name="BtnCompareAlgorithms" Content="Запустить сравнение" Click="BtnCompareAlgorithms_Click" Padding="20,10" HorizontalAlignment="Left" Background="#E8F5E9"/>
+                    </StackPanel>
+
+                    <GroupBox Header="Лог сравнения и замеры времени" Grid.Row="1">
+                        <TextBox x:Name="TxtComparisonResult" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" AcceptsReturn="True" FontFamily="Consolas" FontSize="13"/>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <StatusBar Grid.Row="2" Margin="-10,10,-10,-10">
+            <StatusBarItem>
+                <TextBlock Text="Вариант №12: Карта исторического города | .NET 10 | C# 13" FontSize="11" Foreground="DarkSlateGray"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
