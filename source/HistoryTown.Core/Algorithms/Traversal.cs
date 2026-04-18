@@ -10,39 +10,6 @@ namespace HistoryTown.Core.Algorithms;
 public class Traversal(TownGraph graph)
 {
     /// <summary>
-    /// Проверка: достижима ли вершина target из вершины start
-    /// Используется BFS (поиск по ширине)
-    /// </summary>
-    public bool IsReachable(Structure start, Structure target)
-    {
-        return BreadthFirstSearch(start).Any(s => s.Equals(target));
-    }
-    
-    /// <summary>
-    /// Получение всех компонентов связности графа
-    /// </summary>
-    public List<List<Structure>> GetConnectedComponents()
-    {
-        var components = new List<List<Structure>>();
-        var visited = new HashSet<Structure>();
-        var allNodes = graph.GetAllStructures();
-
-        foreach (var node in allNodes)
-        {
-            if (!visited.Contains(node))
-            {
-                // Для каждого нового непосещенного узла запускаем BFS 
-                // и все найденные узлы образуют один компонент
-                var component = BreadthFirstSearch(node).ToList();
-                components.Add(component);
-                foreach (var visitedNode in component) 
-                    visited.Add(visitedNode);
-            }
-        }
-        return components;
-    }
-    
-    /// <summary>
     /// Алгоритм (генератор) поиска по графу по ширине
     /// </summary>
     /// <param name="start">От какого здания начать</param>
