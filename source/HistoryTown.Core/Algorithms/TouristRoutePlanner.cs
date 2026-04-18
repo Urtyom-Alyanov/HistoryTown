@@ -22,7 +22,7 @@ public class TouristRoutePlanner(TownGraph graph)
 
         var fullPath = new List<Structure>();
         double totalDistance = 0;
-
+        
         for (int i = 0; i < keyObjects.Count - 1; i++)
         {
             var start = keyObjects[i];

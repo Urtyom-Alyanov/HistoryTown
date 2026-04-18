@@ -22,6 +22,16 @@ public class DijkstraAlgorithmTests
         graph.AddStreet(c, d, 8);
         graph.AddStreet(c, e, 2);
         graph.AddStreet(d, e, 7);
+        
+        // a -10- b
+        // |    /|
+        // 3  1  2
+        // |/    |
+        // c -8- d
+        // |    /
+        // 2  7
+        // |/
+        // c
 
         return graph;
     }
@@ -38,31 +48,6 @@ public class DijkstraAlgorithmTests
         var (distances, previousNodes) = dijkstra.FindShortestPaths(start);
 
         // Assert
-        Assert.Equal(0, distances[new Structure("A")]);
-        Assert.Equal(4, distances[new Structure("C")]); // A -> C (3) or A -> B (10) -> C (1) = 11. Correct is 3.
-        Assert.Equal(6, distances[new Structure("B")]); // A -> C (3) -> B (1) = 4, but direct A -> B (10). Wait, this is wrong. Shortest to B should be A-C-E-D-B is also possible. Let's re-evaluate.
-                                                  // A-C (3), A-B (10)
-                                                  // From C: C-B (1) total 3+1 = 4.  So A-C-B is 4.
-                                                  // A-C (3) -> E (2) = 5
-                                                  // A-C (3) -> B (1) -> D (2) = 6
-                                                  // A-B (10) -> D (2) = 12
-                                                  // A-C (3) -> E (2) -> D (7) = 12. 
-                                                  // Let's re-calculate manually for B from A.
-                                                  // A to C = 3, A to B = 10. 
-                                                  // From C: C to B = 1. So A -> C -> B = 3 + 1 = 4.
-                                                  // So, distances[new Structure("B")] should be 4.
-
-
-        // The graph: A --10-- B
-        //            |       |
-        //            3       1 2
-        //            |       | 
-        //            C --8-- D --7-- E
-        //            |       
-        //            2
-        //            |
-        //            E
-
         // Expected distances from A:
         // A: 0
         // C: 3 (A->C)
@@ -86,7 +71,7 @@ public class DijkstraAlgorithmTests
         var start = new Structure("A");
         var target = new Structure("D");
 
-        var (distances, previousNodes) = dijkstra.FindShortestPaths(start);
+        var (_, previousNodes) = dijkstra.FindShortestPaths(start);
 
         // Act
         var path = dijkstra.ReconstructPath(start, target, previousNodes);
@@ -106,7 +91,7 @@ public class DijkstraAlgorithmTests
         var graph = SetupWeightedGraph();
         var dijkstra = new DijkstraAlgorithm(graph);
         var start = new Structure("A");
-        var disconnected = new Structure("Z"); // Non-existent node
+        var disconnected = new Structure("Z");
 
         var (distances, previousNodes) = dijkstra.FindShortestPaths(start);
 

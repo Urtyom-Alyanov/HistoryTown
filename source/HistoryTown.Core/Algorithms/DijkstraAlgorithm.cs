@@ -52,11 +52,17 @@ public class DijkstraAlgorithm(TownGraph graph)
         var path = new List<Structure>();
         var current = target;
 
-        // Идем обратно от целевой вершины к начальной, используя previousNodes
-        while (current != null && !current.Equals(start))
+        try
         {
-            path.Add(current);
-            current = previousNodes[current]; // Переходим к предыдущей вершине
+            while (current != null && !current.Equals(start))
+            {
+                path.Add(current);
+                current = previousNodes[current];
+            }
+        }
+        catch (KeyNotFoundException e)
+        {
+            return new List<Structure>();
         }
 
         // Если дошли до начальной вершины (current == start)
