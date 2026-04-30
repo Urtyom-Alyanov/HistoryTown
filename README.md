@@ -46,46 +46,82 @@
 ```mermaid
 classDiagram
     class Structure {
-        + string Name
+        +string Name
+    }
+
+    class Street {
+        +Structure From
+        +Structure To
+        +double Weight
     }
 
     class TownGraph {
-        + AddStreet(Structure from, Structure to, double weight)
-        + GetWeightedNeighbors(Structure structure)
-        + GetNeighbors(Structure structure)
-        + GetAllStructures()
+        -_adjacencyList: Dictionary
+        +AddStreet(Structure, Structure, double)
+        +GetWeightedNeighbors(Structure)
+        +GetNeighbors(Structure)
+        +GetAllStructures()
+    }
+
+    class TownLoader {
+        <<static>>
+        +LoadFromFile(string) TownGraph
+    }
+
+    class MainWindow {
+        -TownGraph graph
+        -Traversal traversal
+        -DijkstraAlgorithm dijkstra
+        +BtnLoad_Click()
+        +BtnMST_Click()
+        +BtnTouristRoute_Click()
     }
 
     class Traversal {
-        + BreadthFirstSearch(Structure start)
-        + DepthFirstSearchIterative(Structure start)
-        + IsReachable(Structure start, Structure target)
-        + GetConnectedComponents()
+        +BreadthFirstSearch(Structure)
+        +DepthFirstSearchIterative(Structure)
+        +IsReachable(Structure, Structure)
+        +GetConnectedComponents()
     }
 
     class DijkstraAlgorithm {
-        + FindShortestPaths(Structure start)
-        + ReconstructPath(Structure start, Structure target, ...)
+        +FindShortestPaths(Structure)
+        +ReconstructPath(Structure, Structure, Dictionary)
     }
 
     class TouristRoutePlanner {
-        + PlanRoute(List<Structure> keyObjects)
+        -DijkstraAlgorithm dijkstra
+        +PlanRoute(List~Structure~)
     }
 
     class ArticulationPointFinder {
-        + FindArticulationPoints()
+        +FindArticulationPoints()
     }
 
     class PrimMST {
-        + BuildMST()
+        +BuildMST() List~Street~
     }
 
-    TownGraph "1" -- "*" Structure
+    %% Отношения
+    MainWindow *-- TownGraph
+    MainWindow *-- Traversal
+    MainWindow *-- DijkstraAlgorithm
+    MainWindow ..> TouristRoutePlanner : uses
+    MainWindow ..> ArticulationPointFinder : uses
+    MainWindow ..> PrimMST : uses
+
+    TownGraph "1" *-- "*" Street
+    Street o-- Structure : connects
+
+    TownLoader ..> TownGraph : creates
+
     Traversal --> TownGraph
     DijkstraAlgorithm --> TownGraph
     TouristRoutePlanner --> DijkstraAlgorithm
+    TouristRoutePlanner --> TownGraph
     ArticulationPointFinder --> TownGraph
     PrimMST --> TownGraph
+    PrimMST ..> Street : creates
 ```
 
 ## Использование
@@ -96,7 +132,7 @@ classDiagram
 4.  **ЛР №6 (Анализ):** Вкладка "Анализ" содержит:
     *   **Точки сочленения:** поиск критических объектов города.
     *   **MST:** расчет минимальной сети коммуникаций.
-    *   **Туристический маршрут:** планирование пути через выбранные (через Ctrl) объекты.
+    *   **Туристический маршрут:** планирование пути через выбранные объекты.
 5.  **Итоговый проект (Сравнение):** Вкладка "Сравнение" проводит эксперимент: находит путь между двумя зданиями с помощью BFS (минимальное число ребер) и Дейкстры (минимальный вес), замеряя время выполнения и сравнивая результаты.
 
 ## Развёртка
