@@ -1,6 +1,10 @@
 # HistoryTown: Учебный Проект по Алгоритмам на Графах (ЛР 4-6)
 
-![.NET Build Status](https://github.com/Urtyom-Alyanov/HistoryTown/actions/workflows/build.yml/badge.svg)
+![GitHub branch status](https://img.shields.io/github/check-runs/Urtyom-Alyanov/HistoryTown/master?style=for-the-badge&logo=githubactions&logoColor=FFFFFF)
+![GitHub repo size](https://img.shields.io/github/repo-size/Urtyom-Alyanov/HistoryTown?style=for-the-badge&logo=github&logoColor=FFFFFF)
+
+![GitHub top language](https://img.shields.io/github/languages/top/Urtyom-Alyanov/HistoryTown?style=for-the-badge&logo=dotnet&color=8B00FF&logoColor=FFFFFF)
+![Last Commit](https://img.shields.io/github/last-commit/Urtyom-Alyanov/HistoryTown?style=for-the-badge&logo=git&logoColor=FFFFFF)
 
 ## Описание проекта
 
@@ -14,7 +18,7 @@
 
 ## Технологии
 
-*   **Язык программирования:** C# 13
+*   **Язык программирования:** C# 14
 *   **Платформа:** .NET 10.0
 *   **Пользовательский интерфейс:** WPF (Windows Presentation Foundation)
 *   **Тестирование:** xUnit, Coverlet (для покрытия кода)
@@ -48,7 +52,7 @@ classDiagram
     class TownGraph {
         + AddStreet(Structure from, Structure to, double weight)
         + GetWeightedNeighbors(Structure structure)
-        + GetNeighbors(Structure structure) 
+        + GetNeighbors(Structure structure)
         + GetAllStructures()
     }
 
@@ -94,3 +98,21 @@ classDiagram
     *   **MST:** расчет минимальной сети коммуникаций.
     *   **Туристический маршрут:** планирование пути через выбранные (через Ctrl) объекты.
 5.  **Итоговый проект (Сравнение):** Вкладка "Сравнение" проводит эксперимент: находит путь между двумя зданиями с помощью BFS (минимальное число ребер) и Дейкстры (минимальный вес), замеряя время выполнения и сравнивая результаты.
+
+## Развёртка
+
+### Скачать уже собранный проект
+Отчёт по покрытию, сами отчёты по лабораторным и программа лежат во вкладке [Releases](https://github.com/Urtyom-Alyanov/HistoryTown/releases)
+(автоматически  собирается и тестируется)
+
+### Сборка из исходного кода
+
+1. Установите [.NET отсюда](https://dotnet.microsoft.com/en-us/download), а также [Git отсюда](https://git-scm.com/install).
+2. Склонируйте репозиторий
+  ```shell
+    git clone https://github.com/Urtyom-Alyanov/HistoryTown.git
+  ```
+3. В директории проекта соберите и запустите его
+    ```shell
+      dotnet run
+    ```
